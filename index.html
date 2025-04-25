@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Mini Página de Teste de Eventos JS</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+    }
+
+    header {
+      background: #333;
+      color: #fff;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    main {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      padding: 1rem;
+      justify-content: center;
+    }
+
+    .evento-box {
+      background: #fff;
+      border-radius: 8px;
+      padding: 1rem;
+      width: 300px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .log {
+      font-family: monospace;
+      font-size: 0.9rem;
+      background: #000;
+      color: #0f0;
+      height: 120px;
+      overflow-y: auto;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    input, textarea, button, select {
+      margin-top: 0.5rem;
+      width: 100%;
+    }
+
+    .animado {
+      width: 100px;
+      height: 100px;
+      background-color: tomato;
+      animation: mover 2s linear;
+    }
+
+    @keyframes mover {
+      from { transform: translateX(0); }
+      to { transform: translateX(100px); }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Mini Página de Teste de Eventos</h1>
+    <p>Teste todos os eventos JavaScript em um só lugar!</p>
+  </header>
+
+  <main>
+    <!-- Click -->
+    <div class="evento-box">
+      <h3>Click</h3>
+      <button id="btnClick">Clique aqui</button>
+      <div class="log" id="logClick"></div>
+    </div>
+
+    <!-- Mouseenter -->
+    <div class="evento-box">
+      <h3>Mouseenter</h3>
+      <div id="mouseEnterBox" style="height:50px; background:#cfc; text-align:center; line-height:50px;">Passe o mouse</div>
+      <div class="log" id="logMouseEnter"></div>
+    </div>
+
+    <!-- Change -->
+    <div class="evento-box">
+      <h3>Change</h3>
+      <select id="selectChange">
+        <option value="1">Opção 1</option>
+        <option value="2">Opção 2</option>
+      </select>
+      <div class="log" id="logChange"></div>
+    </div>
+
+    <!-- Submit -->
+    <div class="evento-box">
+      <h3>Submit</h3>
+      <form id="formSubmit">
+        <input type="text" placeholder="Seu nome" required />
+        <button type="submit">Enviar</button>
+      </form>
+      <div class="log" id="logSubmit"></div>
+    </div>
+
+    <!-- Drag -->
+    <div class="evento-box">
+      <h3>Drag</h3>
+      <div id="dragItem" draggable="true" style="background:#eef; padding:1rem; text-align:center;">Arraste-me</div>
+      <div class="log" id="logDrag"></div>
+    </div>
+
+    <!-- Focus -->
+    <div class="evento-box">
+      <h3>Focus</h3>
+      <input type="text" id="inputFocus" placeholder="Clique aqui" />
+      <div class="log" id="logFocus"></div>
+    </div>
+
+    <!-- Blur -->
+    <div class="evento-box">
+      <h3>Blur</h3>
+      <input type="text" id="inputBlur" placeholder="Saia do campo" />
+      <div class="log" id="logBlur"></div>
+    </div>
+
+    <!-- Keyup -->
+    <div class="evento-box">
+      <h3>Keyup</h3>
+      <input type="text" id="inputKeyup" placeholder="Solte uma tecla" />
+      <div class="log" id="logKeyup"></div>
+    </div>
+
+    <!-- Touchstart -->
+    <div class="evento-box">
+      <h3>Touchstart</h3>
+      <div id="touchBox" style="height: 50px; background: #def; text-align:center; line-height:50px;">Toque aqui</div>
+      <div class="log" id="logTouch"></div>
+    </div>
+
+    <!-- Animationstart -->
+    <div class="evento-box">
+      <h3>Animationstart</h3>
+      <div id="animBox" class="animado"></div>
+      <div class="log" id="logAnim"></div>
+    </div>
+  </main>
+
+  <script>
+    // Função genérica para logar mensagens em um elemento
+    const log = (id, msg) => {
+      const box = document.getElementById(id);
+      const div = document.createElement("div");
+      div.textContent = `[${new Date().toLocaleTimeString()}] ${msg}`;
+      box.appendChild(div);
+      box.scrollTop = box.scrollHeight;
+    };
+
+    // Click
+    document.getElementById("btnClick").addEventListener("click", () => log("logClick", "Clique detectado"));
+
+    // Mouseenter
+    document.getElementById("mouseEnterBox").addEventListener("mouseenter", () => log("logMouseEnter", "Mouse entrou"));
+
+    // Change
+    document.getElementById("selectChange").addEventListener("change", e => log("logChange", `Valor alterado: ${e.target.value}`));
+
+    // Submit
+    document.getElementById("formSubmit").addEventListener("submit", e => {
+      e.preventDefault();
+      log("logSubmit", "Formulário enviado");
+    });
+
+    // Drag
+    document.getElementById("dragItem").addEventListener("drag", () => log("logDrag", "Item sendo arrastado"));
+
+    // Focus
+    document.getElementById("inputFocus").addEventListener("focus", () => log("logFocus", "Campo em foco"));
+
+    // Blur
+    document.getElementById("inputBlur").addEventListener("blur", () => log("logBlur", "Campo perdeu o foco (blur)"));
+
+    // Keyup
+    document.getElementById("inputKeyup").addEventListener("keyup", e => log("logKeyup", `Tecla liberada: ${e.key}`));
+
+    // Touchstart
+    document.getElementById("touchBox").addEventListener("touchstart", () => log("logTouch", "Toque detectado (touchstart)"));
+
+    // Animationstart
+    document.getElementById("animBox").addEventListener("animationstart", () => log("logAnim", "Animação iniciada (animationstart)"));
+  </script>
+</body>
+</html>
